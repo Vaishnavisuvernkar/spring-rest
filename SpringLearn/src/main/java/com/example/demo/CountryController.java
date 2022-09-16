@@ -1,0 +1,45 @@
+package com.example.demo;
+
+import java.util.List;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+
+
+@RestController
+public class CountryController {
+	
+	@Autowired
+	CountryRepository countryRepository;
+	@RequestMapping(value="/country",method=RequestMethod.GET)
+	@ResponseBody
+	public Country getCountryIndia()
+	{
+		return countryRepository.findByCode("IN"); 
+	}
+	
+	@RequestMapping(value="/countries",method=RequestMethod.GET)
+	public List<Country> getAllCountries()
+	{
+		return countryRepository.findAll();
+	}
+	
+	@RequestMapping(value="/country/{code}",method=RequestMethod.GET)
+	public Country findByCode(@PathVariable String code)
+	{
+		
+		return countryRepository.findByCode(code);
+	}
+	
+	public Country AddCountry(Country country)
+	{
+		return countryRepository.save(country);
+	}
+
+}
